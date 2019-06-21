@@ -15,6 +15,7 @@
 <script>
 import todo from "@/components/Todo.vue";
 import todoForm from "@/components/todoform.vue";
+import axios from "axios";
 
 
 export default {
@@ -33,6 +34,11 @@ methods:{
   },
 addTodo(todo){
   this.todoList.push(todo);
+  axios.put("https://joy00027-vue-and-axios.firebaseio.com/data.json", this.todoList).then(response => {
+    console.log('your data was saved status :' + response.status);
+  }).catch(error => {
+    console.log(error);
+  });
 }
 
 }
@@ -47,7 +53,7 @@ ul{
 ul li{
   border-bottom: 1px solid #acacac;
   padding: 10px 0;
-  
+
 }
 
 </style>
