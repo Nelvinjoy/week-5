@@ -22,7 +22,7 @@ export default {
   data: function(){
     return{
       todos:'',
-      todoList:["walk the dog", "go for a ride", "go Crazy"]
+      todoList:[]
     }
   },
 components: {
@@ -31,16 +31,28 @@ components: {
 methods:{
   appDeleteTodo(index){
     this.todoList.splice(index, 1);
+    axios.put("https://joy00027-vue-and-axios.firebaseio.com/data.json", this.todoList);
   },
 addTodo(todo){
   this.todoList.push(todo);
   axios.put("https://joy00027-vue-and-axios.firebaseio.com/data.json", this.todoList).then(response => {
+console.log(response);
     console.log('your data was saved status :' + response.status);
   }).catch(error => {
     console.log(error);
   });
 }
 
+},
+created(){
+  console.log("app is created");
+  axios.get("https://joy00027-vue-and-axios.firebaseio.com/data.json").then(response =>{
+    console.log(response);
+    console.log(response.data);
+    if(response.data) this.todoList = response.data;
+  }).catch(error =>{
+    console.log("there was an error in getting your data "+ error.response);
+  })
 }
 }
 </script>
